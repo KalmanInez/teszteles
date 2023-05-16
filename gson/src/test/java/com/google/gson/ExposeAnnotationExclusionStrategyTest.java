@@ -72,6 +72,13 @@ public class ExposeAnnotationExclusionStrategyTest {
     assertThat(excluder.excludeField(f, false)).isTrue();
   }
 
+  @Test
+  public void testExcludeFieldMethodeIfStatement() throws Exception {
+    Field f = createFieldAttributes("explicitlyDifferentModeField");
+    assertThat(excluder.excludeField(f, true)).isFalse();
+    assertThat(excluder.excludeField(f, false)).isTrue();
+  }
+
   private static Field createFieldAttributes(String fieldName) throws Exception {
     return MockObject.class.getField(fieldName);
   }

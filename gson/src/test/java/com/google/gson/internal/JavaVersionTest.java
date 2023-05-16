@@ -76,4 +76,9 @@ public class JavaVersionTest {
   public void testUnknownVersionFormat() {
     assertThat(JavaVersion.getMajorJavaVersion("Java9")).isEqualTo(6); // unknown format
   }
+
+  @Test
+  public void testCurrentJavaVersion(){
+    assertThat(JavaVersion.getMajorJavaVersion("1")).isEqualTo(1);
+  }
 }

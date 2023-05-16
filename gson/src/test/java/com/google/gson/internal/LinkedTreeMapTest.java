@@ -235,6 +235,77 @@ public final class LinkedTreeMapTest {
     assertThat(deserialized).isEqualTo(Collections.singletonMap("a", 1));
   }
 
+
+  @Test
+  public void testModCountClear() throws Exception{
+    LinkedTreeMap<String, String> map = new LinkedTreeMap<>();
+    map.put("a", "android");
+    map.put("c", "cola");
+    map.put("b", "bbq");
+    map.put("e", "call");
+    map.put("d", "pills");
+    map.put("i", "mass");
+    map.put("f", "darts");
+    assertThat(map.modCount).isEqualTo(7);
+    map.clear();
+    assertThat(map.modCount).isEqualTo(8);
+  }
+  @Test
+  public void testBalance() throws Exception{
+    LinkedTreeMap<String, String> map = new LinkedTreeMap<>();
+    map.put("a", "android");
+    map.put("c", "cola");
+    map.put("b", "bbq");
+    map.put("e", "call");
+    map.put("d", "pills");
+    map.put("i", "mass");
+    map.put("f", "darts");
+    assertThat(map.root.key).isEqualTo("d");
+  }
+  @Test
+  public void testRemoveInternal() throws Exception{
+    LinkedTreeMap<String, String> map = new LinkedTreeMap<>();
+    map.put("a", "android");
+    map.put("c", "cola");
+    map.put("b", "bbq");
+    map.put("e", "call");
+    map.put("d", "pills");
+    map.put("i", "mass");
+    map.put("f", "darts");
+    assertThat(map.size()).isEqualTo(7);
+    map.remove(map.root.key);
+    assertThat(map.modCount).isEqualTo(8);
+    assertThat(map.size()).isEqualTo(6);
+  }
+  @Test
+  public void testRootHeight() throws Exception{
+    LinkedTreeMap<String, String> map = new LinkedTreeMap<>();
+    map.put("a", "android");
+    map.put("b", "bbq");
+    map.put("c", "cola");
+    map.put("d", "pills");
+    map.put("e", "call");
+    map.put("f", "darts");
+    map.put("i", "mass");
+    assertThat(map.root.height).isEqualTo(3);
+    map.remove(map.root.key);
+    assertThat(map.root.height).isEqualTo(3);
+    assertThat(map.root.key).isEqualTo("e");
+  }
+  @Test
+  public void testNoLeftRight() throws Exception{
+    LinkedTreeMap<String, String> map = new LinkedTreeMap<>();
+    map.put("c", "cola");
+    map.put("b", "bbq");
+    map.put("d", "pills");
+    map.put("a", "android");
+    map.remove("b");
+    assertThat(map.root.left.key).isEqualTo("a");
+    map.put("f", "face");
+    map.remove("d");
+    assertThat(map.root.right.key).isEqualTo("f");
+  }
+
   @SuppressWarnings("varargs")
   @SafeVarargs
   private final <T> void assertIterationOrder(Iterable<T> actual, T... expected) {
