@@ -66,6 +66,16 @@
       <version>31.1-jre</version>
       <scope>test</scope>
     </dependency>
+
+
+    <dependency>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-parent</artifactId>
+      <version>1.11.5</version>
+      <type>pom</type>
+    </dependency>
+
+
   </dependencies>
 
   <build>
@@ -275,6 +285,28 @@
           <excludePackageNames>com.google.gson.internal:com.google.gson.internal.bind</excludePackageNames>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.11.5</version>
+        <configuration>
+          <targetClasses>
+            <param>com.google.gson.internal*</param>
+          </targetClasses>
+          <targetTests>
+            <param>com.google.gson.internal*</param>
+          </targetTests>
+          <mutators>
+            <mutator>CONDITIONALS_BOUNDARY</mutator>
+            <mutator>INCREMENTS</mutator>
+            <mutator>MATH</mutator>
+            <mutator>VOID_METHOD_CALLS</mutator>
+          </mutators>
+        </configuration>
+      </plugin>
+
+
     </plugins>
   </build>
   <profiles>
